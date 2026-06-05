@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>kcolbchain — toasts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../tokens.css" />
+  <link rel="stylesheet" href="page.css" />
+  <style>
+    .toast-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s-2);
+    }
+    .toast-trigger {
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--bg-elev);
+      color: var(--fg);
+      font-family: var(--font);
+      font-size: var(--t-2);
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color .15s ease, color .15s ease, background .15s ease;
+    }
+    .toast-trigger:hover { border-color: var(--fg-muted); }
+    .toast-trigger:focus-visible { outline: 2px solid var(--mark); outline-offset: 2px; }
+
+    .toast-region {
+      position: fixed;
+      right: var(--s-4);
+      bottom: var(--s-4);
+      z-index: 20;
+      display: grid;
+      gap: var(--s-2);
+      width: min(360px, calc(100vw - (var(--s-4) * 2)));
+      pointer-events: none;
+    }
+    .toast {
+      display: grid;
+      grid-template-columns: 4px 1fr auto;
+      gap: var(--s-3);
+      align-items: start;
+      padding: var(--s-3);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--bg-elev);
+      color: var(--fg);
+      pointer-events: auto;
+      animation: toast-in .18s ease-out both;
+    }
+    .toast.is-leaving { animation: toast-out .22s ease-in forwards; }
+    .toast .bar {
+      align-self: stretch;
+      border-radius: 2px;
+      background: var(--fg-muted);
+    }
+    .toast.success .bar { background: var(--ok); }
+    .toast.warning .bar { background: var(--warn); }
+    .toast.error .bar { background: var(--hot); }
+    .toast.success { border-color: var(--ok-soft); }
+    .toast.warning { border-color: var(--warn-soft); }
+    .toast.error { border-color: var(--hot-soft); }
+    .toast .title {
+      font-size: var(--t-2);
+      font-weight: 500;
+      color: var(--fg);
+      margin-bottom: 2px;
+    }
+    .toast .body {
+      font-size: var(--t-1);
+      color: var(--fg-muted);
+    }
+    .toast .close {
+      border: 0;
+      background: transparent;
+      color: var(--fg-faint);
+      font-family: var(--font);
+      font-size: var(--t-3);
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+    }
+    .toast .close:hover { color: var(--fg); }
+    .toast .close:focus-visible { outline: 2px solid var(--mark); outline-offset: 2px; }
+
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(var(--s-2)); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes toast-out {
+      to { opacity: 0; transform: translateY(var(--s-2)); }
+    }
+  </style>
+</head>
+<body>
+
+<header class="kit">
+  <a class="wm" href="../"><em>kcolb</em>chain &nbsp;/&nbsp; brand &nbsp;/&nbsp; components</a>
+  <nav>
+    <a href="index.html">index</a>
+    <a href="logos.html">logos</a>
+    <a href="shapes.html">shapes</a>
+    <a href="layout.html">layout</a>
+    <a href="chips.html">chips</a>
+    <a href="cards.html">cards</a>
+    <a href="buttons.html">buttons</a>
+    <a href="forms.html">forms</a>
+    <a href="tables.html">tables</a>
+    <a href="code.html">code</a>
+    <a href="alerts.html">alerts</a>
+    <a href="toasts.html" class="here">toasts</a>
+    <a href="charts.html">charts</a>
+    <a href="nav.html">nav</a>
+  </nav>
+</header>
+
+<main class="kit">
+
+  <h1>toasts</h1>
+  <p class="lead">A toast is a short-lived status event: one line of outcome, one line of context, then it gets out of the way. Use it after a local action succeeds, needs attention, or fails.</p>
+
+  <h2>variants</h2>
+  <div class="snippet">
+    <div class="render">
+      <div class="toast-controls">
+        <button class="toast-trigger" data-toast="success">success</button>
+        <button class="toast-trigger" data-toast="warning">warning</button>
+        <button class="toast-trigger" data-toast="error">error</button>
+      </div>
+      <div class="toast-region" aria-live="polite" aria-label="Notifications"></div>
+    </div>
+<pre><code>&lt;div class="toast-region" aria-live="polite" aria-label="Notifications"&gt;&lt;/div&gt;
+
+&lt;button data-toast="success"&gt;success&lt;/button&gt;
+&lt;button data-toast="warning"&gt;warning&lt;/button&gt;
+&lt;button data-toast="error"&gt;error&lt;/button&gt;</code></pre>
+  </div>
+
+  <h2>markup</h2>
+<pre><code>&lt;div class="toast success" role="status"&gt;
+  &lt;div class="bar"&gt;&lt;/div&gt;
+  &lt;div&gt;
+    &lt;div class="title"&gt;payment indexed&lt;/div&gt;
+    &lt;div class="body"&gt;settlement proof accepted on Base&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;button class="close" type="button" aria-label="Dismiss notification"&gt;×&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+  <h2>css</h2>
+<pre><code>.toast-region {
+  position: fixed; right: var(--s-4); bottom: var(--s-4); z-index: 20;
+  display: grid; gap: var(--s-2);
+  width: min(360px, calc(100vw - (var(--s-4) * 2)));
+  pointer-events: none;
+}
+.toast {
+  display: grid; grid-template-columns: 4px 1fr auto; gap: var(--s-3);
+  padding: var(--s-3); border: 1px solid var(--line);
+  border-radius: var(--radius); background: var(--bg-elev); color: var(--fg);
+  pointer-events: auto; animation: toast-in .18s ease-out both;
+}
+.toast.is-leaving { animation: toast-out .22s ease-in forwards; }
+.toast.success .bar { background: var(--ok); }
+.toast.warning .bar { background: var(--warn); }
+.toast.error .bar { background: var(--hot); }
+.toast.success { border-color: var(--ok-soft); }
+.toast.warning { border-color: var(--warn-soft); }
+.toast.error { border-color: var(--hot-soft); }</code></pre>
+
+  <h2>javascript</h2>
+<pre><code>const toasts = document.querySelector('.toast-region');
+const messages = {
+  success: ['payment indexed', 'settlement proof accepted on Base'],
+  warning: ['gas drifting', 'retry window increased to 30 seconds'],
+  error: ['oracle rejected', 'signature mismatch on payload hash'],
+};
+
+function dismiss(toast) {
+  toast.classList.add('is-leaving');
+  toast.addEventListener('animationend', () =&gt; toast.remove(), { once: true });
+}
+
+function pushToast(variant) {
+  const [title, body] = messages[variant];
+  const toast = document.createElement('div');
+  toast.className = `toast ${variant}`;
+  toast.setAttribute('role', variant === 'error' ? 'alert' : 'status');
+  toast.innerHTML = `&lt;div class="bar"&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;div class="title"&gt;${title}&lt;/div&gt;&lt;div class="body"&gt;${body}&lt;/div&gt;&lt;/div&gt;
+    &lt;button class="close" type="button" aria-label="Dismiss notification"&gt;×&lt;/button&gt;`;
+  toast.querySelector('.close').addEventListener('click', () =&gt; dismiss(toast));
+  toasts.append(toast);
+  window.setTimeout(() =&gt; dismiss(toast), 5000);
+}</code></pre>
+
+</main>
+
+<script>
+  const toasts = document.querySelector('.toast-region');
+  const messages = {
+    success: ['payment indexed', 'settlement proof accepted on Base'],
+    warning: ['gas drifting', 'retry window increased to 30 seconds'],
+    error: ['oracle rejected', 'signature mismatch on payload hash'],
+  };
+
+  function dismiss(toast) {
+    toast.classList.add('is-leaving');
+    toast.addEventListener('animationend', () => toast.remove(), { once: true });
+  }
+
+  function pushToast(variant) {
+    const [title, body] = messages[variant];
+    const toast = document.createElement('div');
+    toast.className = `toast ${variant}`;
+    toast.setAttribute('role', variant === 'error' ? 'alert' : 'status');
+    toast.innerHTML = `<div class="bar"></div>
+      <div><div class="title">${title}</div><div class="body">${body}</div></div>
+      <button class="close" type="button" aria-label="Dismiss notification">×</button>`;
+    toast.querySelector('.close').addEventListener('click', () => dismiss(toast));
+    toasts.append(toast);
+    window.setTimeout(() => dismiss(toast), 5000);
+  }
+
+  document.querySelectorAll('[data-toast]').forEach((button) => {
+    button.addEventListener('click', () => pushToast(button.dataset.toast));
+  });
+
+  pushToast('success');
+</script>
+
+</body>
+</html>
